@@ -1,13 +1,20 @@
 # CS2-Bullseye-Bot
-CS2-Bullseye-Bot is a CounterStrikeSharp plugin that makes bots in CS2 aim for the head instead of the stomach.
+CS2-Bullseye-Bot is a CounterStrikeSharp plugin that improves bots' aim in CS2.
 
 ![bullseye_2](https://github.com/user-attachments/assets/b658e64e-028c-42de-817c-1748fe0ca4f4)
 # Commands
-`mp_damage_headshot_only 1`  
+
+`bot_aim mixed`  
+Bots target both the head and stomach (default)
+
+`bot_aim head`  
 Bots only target the head
 
-`mp_damage_headshot_only 0`  
+`bot_aim body`  
 Bots only target the stomach
+
+`bot_aim`  
+Check the current aim mode
 # Installation
 1. Download the latest BotAimImprover.zip from Releases
 
