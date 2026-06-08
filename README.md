@@ -23,7 +23,7 @@ Check the current aim mode
 
 2. Extract the folders and upload them to `game/csgo/addons` on your server
 
-3. Download the latest **BotAimImprover_Windows.zip** for Windows and **BotAimImprover_Linux.zip** for Linux from [Releases](https://github.com/ed0ard/CS2-Bullseye-Bot/releases)
+3. Download the latest **BotAimImprover.zip** from [Releases](https://github.com/ed0ard/CS2-Bullseye-Bot/releases)
 
 4. Extract the folder and upload it to `game/csgo/addons/counterstrikesharp/plugins` on your server
 ## If you find the plugin useful then please take the time to star⭐ the repository
