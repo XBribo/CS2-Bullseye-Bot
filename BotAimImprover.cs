@@ -17,8 +17,8 @@ namespace BotAimImprover;
 public class BotAimImprover : BasePlugin
 {
     public override string ModuleName => "BotAimImprover";
-    public override string ModuleVersion => "2.1.2";
-    public override string ModuleAuthor => "ed0ard & htfy96";
+    public override string ModuleVersion => "2.1.3";
+    public override string ModuleAuthor => "ed0ard & htfy96 & XBribo";
     public override string ModuleDescription => "Restores intelligent aim part selection for CS2 bots.";
 
     // ============================================================
@@ -34,7 +34,7 @@ public class BotAimImprover : BasePlugin
         public readonly string Name;
         public readonly float Frac;        // height as fraction of live eyeZ (ignored if FeetAbs)
         public readonly float Lateral;     // +right / -left, world units
-        public readonly bool  FeetAbs;     // true => z = origin.z + Frac (absolute rise), lateral 0
+        public readonly bool FeetAbs;     // true => z = origin.z + Frac (absolute rise), lateral 0
         public AimPoint(string n, float f, float lat, bool feetAbs = false)
         { Name = n; Frac = f; Lateral = lat; FeetAbs = feetAbs; }
     }
@@ -95,7 +95,7 @@ public class BotAimImprover : BasePlugin
     // ============================================================
     // Platform-specific memory layout (PickNewAimSpot hook + CCSBot fields).
     //   Linux  libserver.so 2026-05-28
-    //   Windows server.dll  2026-05-19 / 2026-06-02
+    //   Windows server.dll  2026-07-09
     // ============================================================
     private readonly struct Offsets
     {
@@ -119,8 +119,12 @@ public class BotAimImprover : BasePlugin
         sig: "55 48 89 E5 41 55 41 54 53 48 89 FB 48 83 EC 58 8B 8F E8 59 00 00 83 F9 FF");
 
     private static readonly Offsets WindowsOffsets = new(
-        ts: 0x59A4, en: 0x5A10, vis: 0x5A14, pbot: 0x1298,
-        sig: "48 8B C4 55 57 48 8D 68 A1 48 81 EC A8 00 00 00 48 8B F9 0F 29 70 D8 8B 89 10 5A 00 00 83 F9 FF");
+        ts: 0x599C,
+        en: 0x5A08,
+        vis: 0x5A0C,
+        pbot: 0x12C0,
+        sig: "48 8B C4 55 57 48 8D 68 ? 48 81 EC ? ? ? ? 48 8B F9 0F 29 70 ? 8B 89 ? ? ? ? 83 F9 FF"
+    );
 
     private Offsets _off;
 
@@ -280,7 +284,7 @@ public class BotAimImprover : BasePlugin
             {
                 AimMode.HEAD => wpn == "weapon_awp" ? _priorityBody : _priorityHead,
                 AimMode.BODY => _priorityBody,
-                _            => isBodyWeapon ? _priorityBody : _priorityJaw, // MIXED
+                _ => isBodyWeapon ? _priorityBody : _priorityJaw, // MIXED
             };
 
             // 5) Walk the priority order and raytrace each point from the bot's
@@ -411,7 +415,7 @@ public class BotAimImprover : BasePlugin
         {
             var rt = _rayTraceCapability.Get();
             if (rt == null) return true; // RayTrace not loaded -> don't block
-            var end  = new Vector(tx, ty, tz);
+            var end = new Vector(tx, ty, tz);
             var opts = new TraceOptions(InteractionLayers.MASK_WORLD_ONLY);
             rt.TraceEndShape(eye, end, null, opts, out TraceResult res);
             return res.Fraction >= 0.999f;
@@ -422,7 +426,7 @@ public class BotAimImprover : BasePlugin
     // ============================================================
     // Raw memory readers
     // ============================================================
-    private static unsafe byte   ReadByte(IntPtr addr)   => *(byte*)addr.ToPointer();
-    private static unsafe int    ReadInt32(IntPtr addr)  => *(int*)addr.ToPointer();
+    private static unsafe byte ReadByte(IntPtr addr) => *(byte*)addr.ToPointer();
+    private static unsafe int ReadInt32(IntPtr addr) => *(int*)addr.ToPointer();
     private static unsafe IntPtr ReadIntPtr(IntPtr addr) => *(IntPtr*)addr.ToPointer();
 }
