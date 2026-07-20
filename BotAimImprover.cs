@@ -85,7 +85,7 @@ public class BotAimImprover : BasePlugin
 
     private static readonly int[] _priorityBody =
     {
-        4, 5, 3,         // GUT, PELVIS, CHEST,  
+        4, 5, 3,         // GUT, PELVIS, CHEST,
         10, 11, 6, 7,    // L_GUT, R_GUT, L_CHEST, R_CHEST
         8, 9,            // L_SHOULDER, R_SHOULDER
         2, 1, 0,         // JAW, NECK, HEAD
@@ -115,8 +115,8 @@ public class BotAimImprover : BasePlugin
     }
 
     private static readonly Offsets LinuxOffsets = new(
-        ts: 0x597C, en: 0x59E8, vis: 0x59EC, pbot: 0x1568,
-        sig: "55 48 89 E5 41 55 41 54 53 48 89 FB 48 83 EC 58 8B 8F E8 59 00 00 83 F9 FF");
+        ts: 0x5974, en: 0x59E0, vis: 0x59E4, pbot: 0x1590,
+        sig: "55 48 89 E5 41 55 41 54 53 48 89 FB 48 83 EC 58 8B 8F E0 59 00 00 83 F9 FF");
 
     private static readonly Offsets WindowsOffsets = new(
         ts: 0x599C,
