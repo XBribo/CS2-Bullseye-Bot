@@ -402,6 +402,7 @@ public class BotAimImprover : BasePlugin
                  || float.IsInfinity(x) || float.IsInfinity(y) || float.IsInfinity(z));
     }
 
+    // World-only LoS test from eye to target point, true if unobstructed (>= 0.999)
     private bool PointVisibleFromEye(Vector eye, float tx, float ty, float tz)
     {
         try
