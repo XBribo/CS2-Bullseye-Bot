@@ -15,7 +15,7 @@ namespace BotAimImprover;
 public class BotAimImprover : BasePlugin
 {
     public override string ModuleName => "BotAimImprover";
-    public override string ModuleVersion => "2.1.3";
+    public override string ModuleVersion => "2.1.4";
     public override string ModuleAuthor => "ed0ard & htfy96 & XBribo";
     public override string ModuleDescription => "Restores intelligent aim part selection for CS2 bots.";
 
@@ -91,8 +91,8 @@ public class BotAimImprover : BasePlugin
         16               // FEET
     };
     // ============================================================
-    // PickNewAimSpot signatures and CCSBot fields checked against 2026-09-23 binaries.
-    // CCSPlayerPawn.m_pBot offsets below are retained from the previous mapping and unverified.
+    // PickNewAimSpot signatures
+    // CCSPlayerPawn.m_pBot: Windows 0x1510 , Linux 0x17D8
     // ============================================================
     private readonly struct Offsets
     {
@@ -112,14 +112,14 @@ public class BotAimImprover : BasePlugin
     }
 
     private static readonly Offsets LinuxOffsets = new(
-        ts: 0x596C, en: 0x59D8, vis: 0x59DC, pbot: 0x1590,
+        ts: 0x596C, en: 0x59D8, vis: 0x59DC, pbot: 0x17D8,
         sig: "55 48 89 E5 41 55 41 54 53 48 89 FB 48 83 EC 58 8B 8F ? ? 00 00 83 F9 FF");
 
     private static readonly Offsets WindowsOffsets = new(
         ts: 0x5994,
         en: 0x5A00,
         vis: 0x5A04,
-        pbot: 0x12C0,
+        pbot: 0x1510,
         sig: "48 8B C4 55 57 48 8D 68 ? 48 81 EC ? ? ? ? 48 8B F9 0F 29 70 ? 8B 89 ? ? ? ? 83 F9 FF"
     );
 
@@ -402,7 +402,6 @@ public class BotAimImprover : BasePlugin
                  || float.IsInfinity(x) || float.IsInfinity(y) || float.IsInfinity(z));
     }
 
-    // World-only LoS test from eye to target point, true if unobstructed (>= 0.999)
     private bool PointVisibleFromEye(Vector eye, float tx, float ty, float tz)
     {
         try
